@@ -1,13 +1,21 @@
-FROM eclipse-temurin:21-jre
+# ====== Build stage ======
+FROM hseeberger/scala-sbt:11.0.17_1.8.0_1.9.6 AS builder
 
-# 作業ディレクトリ
 WORKDIR /app
 
-# fat JAR をコピー
-COPY target/scala-3.3.1/function-festival-chat.jar ./app.jar
+COPY . .
 
-# Railway が渡すポート番号を開放
-EXPOSE 8080
+RUN sbt assembly
 
-# アプリ起動（mainClass は JAR に埋め込まれている前提）
+# ====== Run stage ======
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+# 上で生成したfat jarをコピー
+COPY --from=builder /app/target/scala-3.3.1/function-festival-chat.jar ./app.jar
+
+# （Optional）PORT環境変数で起動する前提なので exposeは任意
+# EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
