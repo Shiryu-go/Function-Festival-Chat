@@ -1,5 +1,5 @@
 # ====== Build stage ======
-FROM hseeberger/scala-sbt:11.0.17_1.8.0_1.9.6 AS builder
+FROM sbtscala/scala-sbt:eclipse-temurin-21.0.1_1.11.2_3.3.6 AS builder
 
 WORKDIR /app
 
