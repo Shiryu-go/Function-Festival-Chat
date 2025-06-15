@@ -13,7 +13,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # 上で生成したfat jarをコピー
-COPY --from=builder /app/target/scala-*/function-festival-chat.jar ./app.jar
+COPY --from=builder /app/target/scala-*/*-assembly-*.jar ./app.jar
 
 # （Optional）PORT環境変数で起動する前提なので exposeは任意
 # EXPOSE 8080
